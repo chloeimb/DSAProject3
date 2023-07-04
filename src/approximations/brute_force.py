@@ -4,7 +4,7 @@ import sys
 from .approximation import Approximation
 
 sys.path.append('..')
-from TSP.src.functions import calc_distance, calc_fitness_memo
+from DSAProject3.src.functions import calc_distance, calc_fitness_memo
 
 class BruteForce(Approximation):
     def __init__(self, city_list: list) -> None:
@@ -58,5 +58,7 @@ class BruteForce(Approximation):
 
         self.next_route += 1
 
-        return self.minimum_route, False
+        return self.minimum_distance, False
     
+    def draw(self) -> None:
+        pass

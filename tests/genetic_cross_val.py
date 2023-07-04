@@ -6,8 +6,8 @@ from random_city import City
 
 # Allows importing from directories higher in file path
 sys.path.append('..')
-from TSP.src.approximations.genetic_approximation import GeneticApproximation
-from TSP.src.functions import calc_fitness
+from DSAProject3.src.approximations.genetic_approximation import GeneticApproximation
+from DSAProject3.src.functions import calc_fitness
 
 
 class GeneticCrossVal:

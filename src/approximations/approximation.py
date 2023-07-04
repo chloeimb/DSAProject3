@@ -6,5 +6,9 @@ class Approximation(ABC):
         pass
 
     @abstractmethod
-    def run(self) -> tuple[list, bool]:
+    def run(self) -> tuple[float, bool]:
+        pass
+
+    @abstractmethod
+    def draw(self) -> None:
         pass

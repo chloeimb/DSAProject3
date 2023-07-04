@@ -99,3 +99,4 @@ class Game:
         # Run state functions
         self.state.update(dt, [events, keys])
         self.state.draw()
+        

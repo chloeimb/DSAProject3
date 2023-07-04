@@ -1,15 +1,15 @@
 import pygame
 import numpy as np
 
-from src.colors import LIGHT_GREY
+from .colors import LIGHT_GREY
 
 
 class City:
-    def __init__(self, window: pygame.surface.Surface, name: str, population: int, lat: float, long: float) -> None:
+    def __init__(self, window: pygame.surface.Surface, name: str, population: int, lat: str, long: str) -> None:
         self.name = name
         self.population = population
-        self.lat = lat
-        self.long = long
+        self.lat = float(lat)
+        self.long = float(long)
         self.x = None
         self.y = None
         self.window = window
