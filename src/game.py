@@ -11,6 +11,7 @@ from states.run_state import Run
 
 from src.button import Button
 from src.image import Image
+from src.approximations.nearest_neighbor import NearestNeighbor
 from src.approximations.genetic_approximation import GeneticApproximation
 from src.approximations.brute_force import BruteForce
 from src.functions import get_cities
@@ -48,7 +49,7 @@ class Game:
         self.assets['title'] = Button(self.window, WIDTH, -100, "Traveling Salesman Problem Approximation", title_text.get_width(), 40)
 
         # Approximation functions, requires Python v3.7 or later for ordered dicts
-        self.assets['approximations'] = {'Greedy': GeneticApproximation,
+        self.assets['approximations'] = {'Nearest Neighbor': NearestNeighbor,
                                       '2-Opt': GeneticApproximation,
                                       '3-Opt': GeneticApproximation,
                                       'Genetic': GeneticApproximation,
@@ -56,7 +57,7 @@ class Game:
 
         # Menu buttons
         buttons = []
-        buttons.append(Button(self.window, BUTTON_START_X, BUTTON_START_Y, "Greedy"))
+        buttons.append(Button(self.window, BUTTON_START_X, BUTTON_START_Y, "Nearest Neighbor"))
         buttons.append(Button(self.window, BUTTON_START_X, BUTTON_START_Y + buttons[-1].rect_outer.height + BUTTON_SPACING, "2-Opt"))
         buttons.append(Button(self.window, BUTTON_START_X, BUTTON_START_Y + 2 * (buttons[-1].rect_outer.height + BUTTON_SPACING), "3-Opt"))
         buttons.append(Button(self.window, BUTTON_START_X, BUTTON_START_Y + 3 * (buttons[-1].rect_outer.height + BUTTON_SPACING), "Genetic"))
