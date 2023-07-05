@@ -5,7 +5,7 @@ import sys
 
 from .approximation import Approximation
 sys.path.append('..')
-from TSP.src import functions
+from DSAProject3.src import functions
 
 
 class GeneticApproximation(Approximation):
@@ -25,7 +25,7 @@ class GeneticApproximation(Approximation):
         """
 
         self._evolve_next_generation()
-        return self.best, self.current_generation >= self.num_generations
+        return functions.calc_fitness_memo(self.best), self.current_generation >= self.num_generations
 
     def _evolve_next_generation(self) -> None:
         """Runs algorithm through the genetic evolution process
@@ -146,3 +146,6 @@ class GeneticApproximation(Approximation):
                 individual[swapped], individual[swapWith] = individual[swapWith], individual[swapped]
 
         return individual
+    
+    def draw(self) -> None:
+        pass

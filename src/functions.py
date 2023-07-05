@@ -3,7 +3,7 @@ import sys
 
 # Allows importing from directories higher in file path
 sys.path.append('..')
-from TSP.src.city import City
+from DSAProject3.src.city import City
 
 
 def randomize_route(route: list) -> list:

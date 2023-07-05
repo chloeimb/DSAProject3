@@ -8,7 +8,9 @@ class Run(State):
     def __init__(self, game, approx_fxn_name) -> None:
         self.game = game
         self.timer = 0
-        self.approx_fxn = game.assets['approximations'][approx_fxn_name]
+        self.approx_fxn = game.assets['approximations'][approx_fxn_name](self.game.assets['cities'])
+        self.approximation_complete = False
+
         # Identify selected button for drawing
         for button in self.game.assets['buttons']:
             if button.is_highlighted():
@@ -17,6 +19,11 @@ class Run(State):
 
     def update(self, dt: float, actions: list) -> None:
         self.timer += dt
+
+        # Run approximation
+        if not self.approximation_complete:
+            score, self.approximation_complete = self.approx_fxn.run()
+            print(score)
 
     def draw(self) -> None:
         self.game.window.fill(BLACK)
