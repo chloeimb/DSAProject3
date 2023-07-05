@@ -3,7 +3,7 @@ import pytweening as tween
 
 from states.state import State
 from src.colors import BLACK
-from src.settings import TITLE_TWEEN_DURATION, BUTTON_DELAY, BUTTON_TWEEEN_DISTANCE, TRANSITION_TIME, MAP_DELAY_TRANSITION, MAP_TWEEN_TRANSITION_DURATION, BUTTON_Y_LOC_RUN
+from src.settings import TITLE_TWEEN_DURATION, BUTTON_DELAY, BUTTON_FINAL_X, BUTTON_START_X, TRANSITION_TIME, MAP_DELAY_TRANSITION, MAP_TWEEN_TRANSITION_DURATION, BUTTON_Y_LOC_RUN
 
 
 class Transition(State):
@@ -24,9 +24,9 @@ class Transition(State):
                 button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) + 5) * BUTTON_DELAY, 2, False, -(button.start_y - BUTTON_Y_LOC_RUN))
             else:
                 if seen_highlighted:
-                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - index) * BUTTON_DELAY, 2, True, -BUTTON_TWEEEN_DISTANCE)
+                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - index) * BUTTON_DELAY, 2, True, BUTTON_START_X - BUTTON_FINAL_X)
                 else:
-                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - 1 - index) * BUTTON_DELAY, 2, True, -BUTTON_TWEEEN_DISTANCE)
+                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - 1 - index) * BUTTON_DELAY, 2, True, BUTTON_START_X - BUTTON_FINAL_X)
 
         # Enlarge map tweening
         self.game.assets['map'].set_enlarge_tween(tween.easeInOutSine, MAP_DELAY_TRANSITION, MAP_TWEEN_TRANSITION_DURATION)

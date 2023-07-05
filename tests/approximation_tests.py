@@ -8,51 +8,7 @@ from random_city import RandomCity
 sys.path.append('..')
 from DSAProject3.src.approximations.brute_force import BruteForce
 from DSAProject3.src.approximations.genetic_approximation import GeneticApproximation
-from DSAProject3.src.functions import calc_fitness, calc_fitness_memo
-
-
-def memoization_test(city_list):
-    start = time.time()
-    for _ in range(1000):
-        dist = calc_fitness(city_list)
-    print(dist, time.time() - start)
-
-    start = time.time()
-    for _ in range(1000):
-        dist = calc_fitness_memo(city_list)
-    print(dist, time.time() - start)
-
-
-def plot(brute_force_score, scores):
-    plt.plot(scores)
-    plt.ylabel('Distance')
-    plt.xlabel('Generation')
-    plt.axhline(y = brute_force_score, color = 'r', linestyle = 'dashed')  
-    plt.show()
-
-
-def brute_force(city_list):
-    brute_force_approx = BruteForce(city_list)
-    done = False
-    while not done:
-        best, done = brute_force_approx.run()
-
-    return 1 / best
-
-
-def genetic_test(city_list, brute_force_score):
-    start = time.time()
-
-    genetic_approx = GeneticApproximation(city_list, 200, 10, 0.001, 500)
-
-    done = False
-    scores = []
-    while not done:
-        best, done = genetic_approx.run()
-        scores.append(1 / best)
-
-    print('Genetic run time: ' + str(time.time() - start))
-    plot(brute_force_score, scores)
+from DSAProject3.src.approximations.nearest_neighbor import NearestNeighbor
 
 
 if __name__ == '__main__':
@@ -60,6 +16,22 @@ if __name__ == '__main__':
     map_size = 200
     city_list = [RandomCity(map_size) for _ in range(num_cities)]
 
-    brute_force_score = 0
-    #brute_force_score = brute_force(city_list)
-    genetic_test(city_list, brute_force_score)
+    approximations = [GeneticApproximation, NearestNeighbor]
+    names = []
+    for approx in approximations:
+        approx = approx(city_list)
+        names.append(approx.__class__.__name__)
+        start = time.time()
+        done = False
+        scores = []
+        while not done:
+            best, done = approx.run()
+            scores.append(1 / best)
+
+        print(f'{names[-1]}: {str(time.time() - start)}')
+        plt.plot(scores)
+
+    plt.ylabel('Distance')
+    plt.xlabel('Generation') 
+    plt.legend(names)
+    plt.show()

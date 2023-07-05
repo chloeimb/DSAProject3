@@ -6,6 +6,9 @@ FPS = 60
 MAP_X = WIDTH - 900
 MAP_Y = HEIGHT - 900
 
+# Button size
+BUTTON_SIZE = 200
+
 # Map tweening variable
 MAP_DELAY = 1
 MAP_TWEEN_DURATION = 3
@@ -16,10 +19,10 @@ MAP_TWEEN_TRANSITION_DURATION = 1.5
 
 # Starting location of menu buttons and spacing and timing between them
 BUTTON_SPACING = 15
-BUTTON_START_X = -160
+BUTTON_START_X = -BUTTON_SIZE - 25
 BUTTON_START_Y = 400
 BUTTON_DELAY = 0.25
-BUTTON_TWEEEN_DISTANCE = 190
+BUTTON_FINAL_X = 25
 
 # Title card start position, tweening destination, and size of surrounding rects
 TITLE_HEIGHT_POS_START = -100

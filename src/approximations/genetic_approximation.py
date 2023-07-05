@@ -9,7 +9,7 @@ from DSAProject3.src import functions
 
 
 class GeneticApproximation(Approximation):
-    def __init__(self, init_population, pop_size=200, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:
+    def __init__(self, init_population, pop_size=250, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:
         self.population = [functions.randomize_route(init_population) for _ in range(pop_size)]
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate
@@ -17,11 +17,11 @@ class GeneticApproximation(Approximation):
         self.num_generations = num_generations
         self.best = None
 
-    def run(self) -> tuple[list, bool]:
+    def run(self) -> tuple[float, bool]:
         """Perform a single step in the genetic process
 
         Returns:
-            tuple[list, bool]: returns the top performing organism and whether the approximation is completed
+            tuple[float, bool]: returns the score of the top performing organism and whether the approximation is completed
         """
 
         self._evolve_next_generation()
@@ -149,3 +149,11 @@ class GeneticApproximation(Approximation):
     
     def draw(self) -> None:
         pass
+
+
+"""TODO
+   -Migration?
+   -Adaptive mutation rate?
+   -Common gene detection?
+
+"""
