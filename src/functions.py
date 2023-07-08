@@ -1,9 +1,6 @@
 import random
-import sys
 
-# Allows importing from directories higher in file path
-sys.path.append('..')
-from DSAProject3.src.city import City
+from src.city import City
 
 
 def randomize_route(route: list) -> list:

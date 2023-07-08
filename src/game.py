@@ -4,10 +4,11 @@ import time
 from src.settings import HEIGHT, WIDTH, FPS, MAP_X, MAP_Y, BUTTON_SPACING, BUTTON_START_X, BUTTON_START_Y
 from src.colors import BLACK, MENU_PURPLE
 
-from states.title_state import TitleState
-from states.main_menu_state import MainMenuState
-from states.transition_state import Transition
-from states.run_state import Run
+from src.states.title_state import TitleState
+from src.states.main_menu_state import MainMenuState
+from src.states.menu_run_transition_state import MenuRunTransitionState
+from src.states.run_state import RunState
+from src.states.run_menu_transition_state import RunMenuTransitionState
 
 from src.button import Button
 from src.image import Image
@@ -29,7 +30,7 @@ class Game:
         self._load_assets()
 
         # Game states
-        self.state_dict = {'title': TitleState, 'main_menu': MainMenuState, 'transition': Transition, 'run': Run}
+        self.state_dict = {'title': TitleState, 'main_menu': MainMenuState, 'transition_to_run': MenuRunTransitionState, 'run': RunState, 'transition_to_menu': RunMenuTransitionState}
         self.state = self.state_dict['title'](self, None)
 
         # Timing members

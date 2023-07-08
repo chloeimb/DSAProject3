@@ -1,7 +1,7 @@
 import pygame
 import pytweening as tween
 
-from states.state import State
+from .state import State
 from src.colors import BLACK
 from src.settings import TITLE_TWEEN_DURATION, MAP_DELAY, MAP_TWEEN_DURATION, BUTTON_DELAY, BUTTON_FINAL_X, BUTTON_START_X, LOAD_TIME
 

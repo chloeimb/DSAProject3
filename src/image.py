@@ -20,6 +20,7 @@ class Image:
         self.duration = 0
         self.fade_tween_fx = None
         self.enlarge_tween_fx = None
+        self.shrink_tween_fx = None
 
     def set_fade_tween(self, tween_fx: Callable[[float], float], start: float, duration: float) -> None:
         self.fade_tween_fx = tween_fx
@@ -28,6 +29,11 @@ class Image:
 
     def set_enlarge_tween(self, tween_fx: Callable[[float], float], start: float, duration: float) -> None:
         self.enlarge_tween_fx = tween_fx
+        self.start = start
+        self.duration = duration
+
+    def set_shrink_tween(self, tween_fx: Callable[[float], float], start: float, duration: float) -> None:
+        self.shrink_tween_fx = tween_fx
         self.start = start
         self.duration = duration
 
@@ -48,6 +54,24 @@ class Image:
                 self.y = self.bottom_y - self.img.get_height()
             elif timer > self.start + self.duration:
                 self.enlarge_tween_fx = None
+                # Save current width, height for next tweening
+                self.start_height = self.img.get_height()
+                self.start_width = self.img.get_width()
+
+        # Shrinking tweening
+        if self.shrink_tween_fx:
+            if self.start < timer < self.start + self.duration:
+                tween_val = self.shrink_tween_fx((timer - self.start) / self.duration)
+                self.img = pygame.transform.smoothscale(self.orig_img, (self.start_width - 200 * tween_val, self.start_height - 150 * tween_val))
+                self.x = self.right_x - self.img.get_width()
+                self.y = self.bottom_y - self.img.get_height()
+            elif timer > self.start + self.duration:
+                self.shrink_tween_fx = None
+                # Save current width, height for next tweening
+                self.start_height = self.img.get_height()
+                self.start_width = self.img.get_width()
+
+        
 
     def draw(self):
         self.window.blit(self.img, (self.x, self.y))
