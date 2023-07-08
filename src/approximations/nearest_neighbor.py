@@ -1,9 +1,7 @@
 import math
-import sys
 
 from .approximation import Approximation
-sys.path.append('..')
-from DSAProject3.src.functions import calc_distance, calc_fitness_memo
+from src.functions import calc_distance, calc_fitness_memo
 
 
 class NearestNeighbor(Approximation):

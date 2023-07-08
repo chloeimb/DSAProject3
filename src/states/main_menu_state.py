@@ -1,6 +1,6 @@
 import pygame
 
-from states.state import State
+from .state import State
 from src.colors import BLACK
 from src.settings import KEY_PRESS_DELAY
 
@@ -80,7 +80,7 @@ class MainMenuState(State):
         
         # If other
         elif self.highlighted_button != None:
-            self.game.set_state('transition', self.game.assets['buttons'][self.highlighted_button].name)
+            self.game.set_state('transition_to_run', self.game.assets['buttons'][self.highlighted_button].name)
 
     def draw(self) -> None:
         self.game.window.fill(BLACK)

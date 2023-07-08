@@ -1,10 +1,10 @@
 import pygame
 
-from states.state import State
+from .state import State
 from src.colors import BLACK
 
 
-class Run(State):
+class RunState(State):
     def __init__(self, game, approx_fxn_name) -> None:
         self.game = game
         self.timer = 0
@@ -24,6 +24,10 @@ class Run(State):
         if not self.approximation_complete:
             score, self.approximation_complete = self.approx_fxn.run()
             print(score)
+
+        # If complete, allow transition back to main menu
+        if actions[1][pygame.K_SPACE]:
+            self.game.set_state('transition_to_menu')
 
     def draw(self) -> None:
         self.game.window.fill(BLACK)

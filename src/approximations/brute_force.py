@@ -1,10 +1,7 @@
 from itertools import permutations
-import sys
 
 from .approximation import Approximation
-
-sys.path.append('..')
-from DSAProject3.src.functions import calc_distance, calc_fitness_memo
+from src.functions import calc_distance, calc_fitness_memo
 
 class BruteForce(Approximation):
     def __init__(self, city_list: list) -> None:

@@ -1,12 +1,9 @@
 import numpy as np
 import random
 import pandas as pd
-import sys
 
 from .approximation import Approximation
-sys.path.append('..')
-from DSAProject3.src import functions
-
+from src import functions
 
 class GeneticApproximation(Approximation):
     def __init__(self, init_population, pop_size=250, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:

@@ -1,14 +1,14 @@
-import sys
 import matplotlib.pyplot as plt
 import time
 
 from random_city import RandomCity
 
-# Allows importing from directories higher in file path
-sys.path.append('..')
-from DSAProject3.src.approximations.brute_force import BruteForce
-from DSAProject3.src.approximations.genetic_approximation import GeneticApproximation
-from DSAProject3.src.approximations.nearest_neighbor import NearestNeighbor
+# Allow import from src folder
+from sys import path
+from os.path import dirname
+path.append(dirname(path[0]))
+from src.approximations.genetic_approximation import GeneticApproximation
+from src.approximations.nearest_neighbor import NearestNeighbor
 
 
 if __name__ == '__main__':

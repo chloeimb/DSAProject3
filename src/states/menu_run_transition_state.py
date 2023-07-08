@@ -1,12 +1,12 @@
 import pygame
 import pytweening as tween
 
-from states.state import State
+from .state import State
 from src.colors import BLACK
-from src.settings import TITLE_TWEEN_DURATION, BUTTON_DELAY, BUTTON_FINAL_X, BUTTON_START_X, TRANSITION_TIME, MAP_DELAY_TRANSITION, MAP_TWEEN_TRANSITION_DURATION, BUTTON_Y_LOC_RUN
+from src.settings import TITLE_TWEEN_DURATION, BUTTON_DELAY, BUTTON_FINAL_X, BUTTON_START_X, TRANSITION_TIME, MAP_DELAY_TRANSITION, MAP_TWEEN_TRANSITION_DURATION, BUTTON_Y_LOC_RUN, BUTTON_TWEEN_DURATION
 
 
-class Transition(State):
+class MenuRunTransitionState(State):
     def __init__(self, game, approx_fxn_name) -> None:
         self.game = game
         self.timer = 0
@@ -21,12 +21,12 @@ class Transition(State):
             # Move highlighted button up to act as label/title
             if button.is_highlighted():
                 # Delay so no overlap, move up
-                button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) + 5) * BUTTON_DELAY, 2, False, -(button.start_y - BUTTON_Y_LOC_RUN))
+                button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) + 5) * BUTTON_DELAY, BUTTON_TWEEN_DURATION, False, -(button.start_y - BUTTON_Y_LOC_RUN))
             else:
                 if seen_highlighted:
-                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - index) * BUTTON_DELAY, 2, True, BUTTON_START_X - BUTTON_FINAL_X)
+                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - index) * BUTTON_DELAY, BUTTON_TWEEN_DURATION, True, BUTTON_START_X - BUTTON_FINAL_X)
                 else:
-                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - 1 - index) * BUTTON_DELAY, 2, True, BUTTON_START_X - BUTTON_FINAL_X)
+                    button.set_tween(tween.easeOutSine, (len(self.game.assets['buttons']) - 1 - index) * BUTTON_DELAY, BUTTON_TWEEN_DURATION, True, BUTTON_START_X - BUTTON_FINAL_X)
 
         # Enlarge map tweening
         self.game.assets['map'].set_enlarge_tween(tween.easeInOutSine, MAP_DELAY_TRANSITION, MAP_TWEEN_TRANSITION_DURATION)
@@ -44,7 +44,7 @@ class Transition(State):
         # Tween title card
         self.game.assets['title'].update(self.timer)
 
-        # Transfer control to menu state
+        # Transfer control to run state
         if self.timer > TRANSITION_TIME:
             self.game.set_state('run', self.approx_fxn_name)
 

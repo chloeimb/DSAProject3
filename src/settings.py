@@ -42,6 +42,7 @@ KEY_PRESS_DELAY = 0.2
 
 # Run state menu button position
 BUTTON_Y_LOC_RUN = 50
+BUTTON_TWEEN_DURATION = 2
 
 # Further cardinal coordinates of Florida
 FL_N = 31.001
