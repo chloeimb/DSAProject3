@@ -39,6 +39,9 @@ class Game:
         self.prev_time = time.time()
 
     def _load_assets(self) -> None:
+        """ Loads primary game assests into game object
+        """
+
         self.assets = {}
         
         # Map
@@ -69,10 +72,34 @@ class Game:
         # Load cities from file
         self.assets['cities'] = get_cities(self.window)
 
+    def calculate_city_XY(self):
+        """ Set X, Y values of city based on size and position of map object
+        """
+        image_start_x = self.assets['map'].x
+        image_start_y = self.assets['map'].y
+        image_height = self.assets['map'].start_height
+        image_width = self.assets['map'].start_width
+
+        for city in self.assets['cities']:
+            city.calculate_XY(image_start_x, image_start_y, image_height, image_width)
+
     def set_state(self, new_state: str, params=None) -> None:
+        """ Advances game state
+
+        Args:
+            new_state (str): Name of next game state as specified is self.state_dict
+            params (_type_, optional): Any required initializer paramaters for selected game state. Defaults to None.
+        """
+
         self.state = self.state_dict[new_state](self, params)
 
     def game_loop(self) -> None:
+        """ Main game loop
+            Allows user to quit by pressing the close button or by pressing the Esc key
+            Allows user to restart by pressing the r key
+            Calls the current game states update and draw functions
+        """
+
         self.clock.tick(FPS)
 
         # Exit gracefully if close button is pressed
