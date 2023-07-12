@@ -3,16 +3,18 @@ import random
 import pandas as pd
 
 from .approximation import Approximation
-from src import functions
+from .approximation_utils import draw_route, calc_fitness_memo
+from src.functions import randomize_route
+
 
 class GeneticApproximation(Approximation):
     def __init__(self, init_population, pop_size=250, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:
-        self.population = [functions.randomize_route(init_population) for _ in range(pop_size)]
+        self.population = [randomize_route(init_population) for _ in range(pop_size)]
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate
         self.current_generation = 0
         self.num_generations = num_generations
-        self.best = None
+        self.best = self.population[0]
 
     def run(self) -> tuple[float, bool]:
         """Perform a single step in the genetic process
@@ -22,7 +24,7 @@ class GeneticApproximation(Approximation):
         """
 
         self._evolve_next_generation()
-        return functions.calc_fitness_memo(self.best), self.current_generation >= self.num_generations
+        return calc_fitness_memo(self.best), self.current_generation >= self.num_generations
 
     def _evolve_next_generation(self) -> None:
         """Runs algorithm through the genetic evolution process
@@ -45,7 +47,7 @@ class GeneticApproximation(Approximation):
             list: list of two element tuples, containing the population and its fitness
         """
 
-        return sorted([(pop, functions.calc_fitness_memo(pop)) for pop in self.population], key=lambda x: x[1], reverse = True)
+        return sorted([(pop, calc_fitness_memo(pop)) for pop in self.population], key=lambda x: x[1], reverse = True)
 
     def _selection_FPS(self, ranked_pops: list[tuple[list, float]]) -> list:
         """Selects populations for the mating pool via fitness proportionate selection. Top populations proceed based on elite size value.
@@ -144,13 +146,11 @@ class GeneticApproximation(Approximation):
 
         return individual
     
-    def draw(self) -> None:
-        pass
+    def draw(self, window) -> None:
+        """ Draw calculated route
 
+        Args:
+            window (pygame.surface.Surface): Game window to draw onto
+        """
 
-"""TODO
-   -Migration?
-   -Adaptive mutation rate?
-   -Common gene detection?
-
-"""
+        draw_route(window, self.best)

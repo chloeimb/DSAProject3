@@ -45,5 +45,8 @@ class RunState(State):
         for city in self.game.assets['cities']:
             city.draw()
 
+        # Route
+        self.approx_fxn.draw(self.game.window)
+
         pygame.display.update()
         

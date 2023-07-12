@@ -10,5 +10,5 @@ class Approximation(ABC):
         pass
 
     @abstractmethod
-    def draw(self) -> None:
+    def draw(self, window) -> None:
         pass
