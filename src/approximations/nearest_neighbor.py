@@ -1,7 +1,7 @@
 import math
 
 from .approximation import Approximation
-from src.functions import calc_distance, calc_fitness_memo
+from .approximation_utils import draw_route, calc_distance, calc_fitness_memo
 
 
 class NearestNeighbor(Approximation):
@@ -40,5 +40,11 @@ class NearestNeighbor(Approximation):
         self.route.append(self.remaining_cities.pop(closest_idx))
 
     
-    def draw(self) -> None:
-        pass
+    def draw(self, window) -> None:
+        """ Draw calculated route
+
+        Args:
+            window (pygame.surface.Surface): Game window to draw onto
+        """
+
+        draw_route(window, self.route + self.remaining_cities)

@@ -1,7 +1,8 @@
 from itertools import permutations
 
 from .approximation import Approximation
-from src.functions import calc_distance, calc_fitness_memo
+from .approximation_utils import draw_route, calc_distance, calc_fitness_memo
+
 
 class BruteForce(Approximation):
     def __init__(self, city_list: list) -> None:
@@ -21,7 +22,7 @@ class BruteForce(Approximation):
         try:
             route = [self.start] + list(next(self.routes))
         except StopIteration:
-            return self.minimum_route, True
+            return 1 / self.minimum_distance, True
         
         return self._run(route)
 
@@ -55,7 +56,13 @@ class BruteForce(Approximation):
 
         self.next_route += 1
 
-        return self.minimum_distance, False
+        return 1 / self.minimum_distance, False
     
-    def draw(self) -> None:
-        pass
+    def draw(self, window) -> None:
+        """ Draw calculated route
+
+        Args:
+            window (pygame.surface.Surface): Game window to draw onto
+        """
+        
+        draw_route(window, self.minimum_route)
