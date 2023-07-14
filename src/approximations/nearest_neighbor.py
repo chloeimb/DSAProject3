@@ -5,7 +5,7 @@ from .approximation_utils import draw_route, calc_distance, calc_fitness_memo
 
 
 class NearestNeighbor(Approximation):
-    def __init__(self, cities) -> None:
+    def __init__(self, cities: list) -> None:
         self.route = [cities[0]]
         self.remaining_cities = cities[1:]
 
