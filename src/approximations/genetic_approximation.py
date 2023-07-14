@@ -1,3 +1,5 @@
+#https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
+
 import numpy as np
 import random
 import pandas as pd
@@ -8,7 +10,7 @@ from src.functions import randomize_route
 
 
 class GeneticApproximation(Approximation):
-    def __init__(self, init_population, pop_size=250, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:
+    def __init__(self, init_population: list, pop_size=250, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:
         self.population = [randomize_route(init_population) for _ in range(pop_size)]
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate

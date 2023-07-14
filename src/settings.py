@@ -7,7 +7,7 @@ MAP_X = WIDTH - 900
 MAP_Y = HEIGHT - 900
 
 # Button size
-BUTTON_SIZE = 200
+BUTTON_SIZE = 235
 
 # Map tweening variable
 MAP_DELAY = 1

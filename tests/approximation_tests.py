@@ -9,6 +9,7 @@ from os.path import dirname
 path.append(dirname(path[0]))
 from src.approximations.genetic_approximation import GeneticApproximation
 from src.approximations.nearest_neighbor import NearestNeighbor
+from src.approximations.simulated_annealing import SimmulatedAnnealing
 
 
 if __name__ == '__main__':
@@ -16,8 +17,9 @@ if __name__ == '__main__':
     map_size = 200
     city_list = [RandomCity(map_size) for _ in range(num_cities)]
 
-    approximations = [GeneticApproximation, NearestNeighbor]
+    approximations = [NearestNeighbor, GeneticApproximation, SimmulatedAnnealing]
     names = []
+    plt.figure(figsize=(20, 12), dpi=80)
     for approx in approximations:
         approx = approx(city_list)
         names.append(approx.__class__.__name__)
@@ -32,6 +34,7 @@ if __name__ == '__main__':
         plt.plot(scores)
 
     plt.ylabel('Distance')
-    plt.xlabel('Generation') 
+    plt.xlabel('Iteration') 
+    plt.xscale('log')
     plt.legend(names)
     plt.show()
