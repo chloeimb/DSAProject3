@@ -8,13 +8,20 @@ from .approximation import Approximation
 from .approximation_utils import draw_route, calc_fitness_memo
 
 
+BATCH_SIZE = 100
+MAX_SAME_ROUTE = 1_500
+MAX_SAME_DISTANCE = 15_000
+DISTANCE_CORRECTIVE_FACTOR = 5_000_000_000
+
+
 class SimmulatedAnnealing(Approximation):
     def __init__(self, cities: list, start_temp: int=5_000, alpha: float=0.99) -> None:
         self.best = cities
         self.current_temp = start_temp
         self.alpha = alpha
-        self.same_count = 0
-        self.same_cost_diff = 0
+        self.same_route_count = 0
+        self.same_distance_count = 0
+        self.mutation_functions = [self._inverse, self._insert, self._swap, self._swap_routes]
 
     def run(self) -> tuple[float, bool]:
         """Perform a batch of simulated annealing
@@ -23,10 +30,10 @@ class SimmulatedAnnealing(Approximation):
             tuple[float, bool]: The score of the current route and whether the approximation is completed
         """
 
-        for _ in range(100):
+        for _ in range(BATCH_SIZE):
             self._anneal()
 
-        return calc_fitness_memo(self.best), self.same_count > 1_500 or self.same_cost_diff > 15_000
+        return calc_fitness_memo(self.best), self.same_route_count > MAX_SAME_ROUTE or self.same_distance_count > MAX_SAME_DISTANCE
 
     def _anneal(self) -> None:
         """ Perform a single iteration of simulated annealing
@@ -38,26 +45,26 @@ class SimmulatedAnnealing(Approximation):
         # Accept if candidate is better
         if cost_diff > 0:
             self.best = candidate
-            self.same_count = 0
-            self.same_cost_diff = 0
+            self.same_route_count = 0
+            self.same_distance_count = 0
 
         # Increment counter if the same
         elif cost_diff == 0:
             self.best = candidate
-            self.same_count = 0
-            self.same_cost_diff += 1
+            self.same_route_count = 0
+            self.same_distance_count += 1
         
         else:
             # Otherwise, accept it with a probability of e^(-cost/temp)
-            if random.uniform(0, 1) <= math.exp(5_000_000_000 * float(cost_diff) / float(self.current_temp)):
+            if random.uniform(0, 1) <= math.exp(DISTANCE_CORRECTIVE_FACTOR * float(cost_diff) / float(self.current_temp)):
                 self.best = candidate
-                self.same_count = 0
-                self.same_cost_diff = 0
+                self.same_route_count = 0
+                self.same_distance_count = 0
 
             # Increment both counters if candidate is rejected
             else:
-                self.same_count += 1
-                self.same_cost_diff += 1
+                self.same_route_count += 1
+                self.same_distance_count += 1
 
         # Reduce current temp
         self.current_temp = self.current_temp * self.alpha
@@ -137,7 +144,7 @@ class SimmulatedAnnealing(Approximation):
             list: Potential TPS solution with a random mution applied
         """
 
-        mutation_fxn1 = random.choice([self._inverse, self._insert, self._swap, self._swap_routes])
+        mutation_fxn1 = random.choice(self.mutation_functions)
         return mutation_fxn1(copy.copy(state))
 
 

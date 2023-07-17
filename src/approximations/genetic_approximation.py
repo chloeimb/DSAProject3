@@ -10,12 +10,14 @@ from src.functions import randomize_route
 
 
 class GeneticApproximation(Approximation):
-    def __init__(self, init_population: list, pop_size=250, elite_size=10, mutation_rate=0.001, num_generations=500) -> None:
+    def __init__(self, init_population: list, pop_size: int=250, elite_size:int =5, mutation_rate: float=0.001, num_generations:int =500, tournement_size: int=5) -> None:
+        self.pop_size = pop_size
         self.population = [randomize_route(init_population) for _ in range(pop_size)]
         self.elite_size = elite_size
         self.mutation_rate = mutation_rate
         self.current_generation = 0
         self.num_generations = num_generations
+        self.tournement_size = tournement_size
         self.best = self.population[0]
 
     def run(self) -> tuple[float, bool]:
@@ -29,15 +31,12 @@ class GeneticApproximation(Approximation):
         return calc_fitness_memo(self.best), self.current_generation >= self.num_generations
 
     def _evolve_next_generation(self) -> None:
-        """Runs algorithm through the genetic evolution process
-           First: Ranks and sorts the current population
-           Performs fitness proportionate selection on the population
-           Breeds and mutatates population
+        """Runs algorithm through the genetic evolution process: selection, breeding, mutation
         """
 
         pop_ranked = self._rank_pops()
         self.best = pop_ranked[0][0]
-        selection_results = self._selection_FPS(pop_ranked)
+        selection_results = self._selection_tournement(pop_ranked)
         children = self._breed_population(selection_results)
         self.population = self._mutate_population(children)
         self.current_generation += 1
@@ -74,6 +73,25 @@ class GeneticApproximation(Approximation):
                 if 100 * random.random() <= df.iat[i,1]:
                     selection_results.append(ranked_pops[i][0])
                     break
+
+        return selection_results
+
+    def _selection_tournement(self, ranked_pops: list[tuple[list, float]]) -> list:
+        """Selects populations for the mating pool via tournement selection. Top populations proceed based on elite size value.
+           Remaining populations are selected via random tournement between k individuals.
+
+        Args:
+            ranked_pops (list[tuple[list, float]]): list of two element tuples, containing the population and its fitness
+
+        Returns:
+            list: selected populations for the mating pool
+        """
+
+        # Specified number of top-ranked populations continue to next generation
+        selection_results = [pop for pop, score in ranked_pops[:self.elite_size]]
+        
+        for _ in range(self.pop_size - self.elite_size):
+            selection_results.append(max(random.sample(ranked_pops, self.tournement_size), key=lambda x: x[1])[0])
 
         return selection_results
 
