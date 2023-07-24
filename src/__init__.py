@@ -1,1 +1,1 @@
-from src import approximations, states, button, city, colors, functions, game, image, settings
+from src import approximations, states, button, city, colors, game, image, settings

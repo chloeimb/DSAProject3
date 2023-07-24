@@ -7,7 +7,7 @@ MAP_X = WIDTH - 900
 MAP_Y = HEIGHT - 900
 
 # Button size
-BUTTON_SIZE = 235
+BUTTON_SIZE = 275
 
 # Map tweening variable
 MAP_DELAY = 1
@@ -32,10 +32,10 @@ TITLE_INNER_REC_SIZE = 14
 TITLE_TWEEN_DURATION = 2
 
 # Time spent in title state before transitioning to menu state
-LOAD_TIME = 5
+LOAD_TIME = 5.5
 
 # Time spent in transition state before transitioning to run state
-TRANSITION_TIME = 5
+TRANSITION_TIME = 5.5
 
 # Delay to allow ease of use of arrow keys in menu
 KEY_PRESS_DELAY = 0.2

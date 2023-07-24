@@ -7,10 +7,6 @@ from random_city import RandomCity
 from sys import path
 from os.path import dirname
 path.append(dirname(path[0]))
-from src.approximations.genetic_approximation import GeneticApproximation
-from src.approximations.nearest_neighbor import NearestNeighbor
-from src.approximations.simulated_annealing import SimmulatedAnnealing
-from src.approximations.particle_swarm_optimization import ParticleSwarmOptimization
 from src.approximations.ant_colony_opimization import AntColonyOptimization
 
 
@@ -23,12 +19,12 @@ if __name__ == '__main__':
     map_size = 200
     city_list = [RandomCity(map_size) for _ in range(num_cities)]
 
-    approximations = [NearestNeighbor, AntColonyOptimization]
+    vals = [0.0001, 0.001, 0.01, 0.1, 0.25, 0.5, 1]
     names = []
     plt.figure(figsize=(20, 12), dpi=80)
-    for approx in approximations:
-        approx = approx(city_list)
-        names.append(approx.__class__.__name__)
+    for val in vals:
+        approx = AntColonyOptimization(city_list, initial_pheromone_strength=val)
+        names.append(val)
         start = time.time()
         done = False
         scores = []

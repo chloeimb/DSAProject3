@@ -1,6 +1,19 @@
 import pygame
+import random
 
 from src.colors import MAXIMUM_GREEN
+
+
+def randomize_route(route: list) -> list:
+    """Randomizes the input
+
+    Args:
+        route (list): list of city objects to be randomized
+
+    Returns:
+        list: suffled list of city objects
+    """
+    return random.sample(route, len(route))
 
 
 #https://codereview.stackexchange.com/questions/110221/tsp-brute-force-optimization-in-python
@@ -75,3 +88,26 @@ def draw_route(window: pygame.surface.Surface, route: list) -> None:
     # Loop through remaining connections
     for index, city in enumerate(route[1:]):
         pygame.draw.line(window, MAXIMUM_GREEN, route[index].get_pixel_tuple(), city.get_pixel_tuple(), 2)
+
+def draw_grid(game, grid: dict[dict[float]]) -> None:
+    """ Draw all connections based on relative strength of connection
+
+    Args:
+        window (pygame.surface.Surface): Game window that route will be drawn onto
+        grid (dict[dict[float]]): Sequential list of city objects that represent the calculated route
+    """
+
+    max_val = max([max(innder_dict.values()) for innder_dict in grid.values()])
+    x, y, height, width = game.assets['map'].get_x_y_height_width()
+    route_surface = pygame.Surface((width, height)).convert_alpha()
+    route_surface.fill((0, 0, 0, 0))
+
+    for outer_city in grid.keys():
+        for inner_city in grid[outer_city].keys():
+            if outer_city is inner_city:
+                continue
+            alpha = int(255 * grid[outer_city][inner_city] / max_val)
+            if alpha > 0:
+                pygame.draw.line(route_surface, (*MAXIMUM_GREEN, alpha), outer_city.get_pixel_tuple(), inner_city.get_pixel_tuple(), 2)
+
+    game.window.blit(route_surface, (x, y))
