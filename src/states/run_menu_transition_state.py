@@ -23,7 +23,7 @@ class RunMenuTransitionState(State):
             # Move highlighted button up to act as label/title
             if button.is_highlighted():
                 # Move to original position
-                button.set_tween(tween.easeOutSine, 0, BUTTON_TWEEN_DURATION, False, button.start_y - button.range - BUTTON_Y_LOC_RUN)
+                button.set_tween(tween.easeOutSine, 0, BUTTON_TWEEN_DURATION, False, -button.range)  #button.start_y - button.range - BUTTON_Y_LOC_RUN
                 button.dehighlight()
                 seen_highlighted = True
             else:

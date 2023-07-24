@@ -37,6 +37,15 @@ class Image:
         self.start = start
         self.duration = duration
 
+    def get_x_y_height_width(self) -> tuple[int, int, int, int]:
+        """ Provides the position and dimensions of the image
+
+        Returns:
+            tuple[int, int, int, int]: position and dimensions of the image
+        """
+
+        return self.x, self.y, self.start_height, self.start_width
+
     def update(self, timer):
         # Fade in tweening
         if self.fade_tween_fx:
