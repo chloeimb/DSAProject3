@@ -66,12 +66,7 @@ def calc_fitness_memo(route: list) -> float:
         float: score of the input route
     """
 
-    distance = calc_distance(route[0], route[-1])
-    for i, start in enumerate(route[:-1]):
-        end = route[i + 1]            
-        distance += calc_distance(start, end)
-
-    return 1 / distance
+    return 1 / sum(calc_distance(route[i], route[i-1]) for i in range(len(route)))
 
 
 def draw_route(window: pygame.surface.Surface, route: list) -> None:
