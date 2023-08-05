@@ -1,30 +1,35 @@
 import math
 
-def e_distance(city1, city2):
-    return math.sqrt((city1[0] - city2[0])**2 + (city1[1] - city2[1])**2)
+class Greedy:
+    def __init__(self, cities):
+        self.cities = cities
+        self.num_cities = len(cities)
+        self.tour = []
 
-def closest_city(curr_city, other_cities):
-    nearest_city = None
-    nearest_dist = float('inf')
+    def cities_distance(self, city1, city2): 
+        return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
 
-    for next_city in other_cities:
-        distance = e_distance(curr_city, next_city)
-        if distance < nearest_dist:
-            nearest_city = next_city
-            nearest_dist = distance
+    def find_closest(self, current, others):
+        closest = None
+        closest_dist = float('inf')
 
-    return nearest_city, nearest_dist
+        for next_city in others:
+            distance = self.cities_distance(current, next_city)
+            if distance < closest_dist:
+                closest = next_city
+                closest_dist = distance
 
-def greedy(cities):
-    num_cities = len(cities)
-    tour = [0]
-    remaining = list(range(1, num_cities))
+        return closest, closest_dist
+    
+    def solve(self):
+        self.tour = [0]
+        others = list(range(1, self.num_cities))
 
-    while remaining:
-        curr = cities[tour[-1]]
-        nearest_city, nearest_distance = closest_city(curr, [cities[i] for i in remaining])
-        tour.append(cities.index(nearest_city))
-        remaining.remove(nearest_city)
+        while others:
+            current = self.cities[self.tour[-1]]
+            closest, _ = self.find_closest(current, [self.cities[i] for i in others])
+            self.tour.append(self.cities.index(closest))
+            others.remove(closest)
 
-    tour.append(tour[0])
-    return tour
+        self.tour.append(self.tour[0])
+        return self.tour
