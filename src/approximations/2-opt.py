@@ -1,31 +1,37 @@
 import math
 
-def e_distance(city1, city2):
-    return math.sqrt((city1[0] - city2[0])**2 + (city1[1] - city2[1]**2))
+class TwoOpt:
+    def __init__(self, cities, tour):
+        self.cities = cities
+        self.tour = tour
 
+    def cities_distance(self, city1, city2):
+        return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
 
-def total_distance(route, cities):
-    total = 0
-    for i in range(len(route) - 1):
-        total += e_distance(cities[route[i], cities[route[i + 1]]])
-    return total
+    def total_distance(self):
+        total = 0
+        for i in range(len(self.tour) - 1):
+            total += self.cities_distance(self.cities[self.tour[i]], self.cities[self.tour[i+1]])
 
-def swap_2opt(route, i, k):
-    new_route = route[:i] + route[i:k+1][::-1] + route[k+1:]
-    return new_route
+        return total
+    
+    def swap(self, i, k):
+        new_tour = self.tour[:i] + self.tour[i:k+1][::-1] + self.tour[k+1:]
+        return new_tour
+    
+    def improve(self):
+        best = self.tour.copy() 
+        better = True
 
-def two_opt(cities, route):
-    best = route
-    better = True
+        while better:
+            better = False
+            for i in range(1, len(self.cities) - 1):
+                for j in range(i + 1, len(self.cities)):
+                    new_tour = self.swap(i, k)
+                    new_dist = self.total_distance()
+                    if new_dist < self.total_distance():
+                        best = new_tour
+                        better = True
 
-    while better:
-        better = False
-        for i in range(i, len(cities) - 1):
-            for k in range(i + 1, len(cities)):
-                new_route = swap_2opt(best, i, k)
-                new_dist = total_distance(new_route, cities)
-                if new_dist < total_distance(best, cities):
-                    best = new_route
-                    better = True
-
-    return best
+        self.tour = best
+        return self.tour
