@@ -34,6 +34,12 @@ class GreedyTwoOpt:
         self.tour.append(self.tour[0])
         return self.tour
 
+    def calculate_tour_distance(self, tour):
+        distance = 0
+        for i in range(len(tour) - 1):
+            distance += self.cities_distance(self.cities[tour[i]], self.cities[tour[i + 1]])
+        return distance
+
     def two_opt_swap(self, tour, i, j):
         new_tour = tour[:i] + tour[i:j + 1][::-1] + tour[j + 1:]
         return new_tour
@@ -47,7 +53,7 @@ class GreedyTwoOpt:
             for i in range(1, self.num_cities - 2):
                 for j in range(i + 1, self.num_cities):
                     if j - i == 1:
-                        continue  # No improvement if indices are adjacent
+                        continue 
                     new_tour = self.two_opt_swap(tour, i, j)
                     if self.calculate_tour_distance(new_tour) < self.calculate_tour_distance(best_tour):
                         best_tour = new_tour
@@ -57,13 +63,8 @@ class GreedyTwoOpt:
 
         return best_tour
 
-    def calculate_tour_distance(self, tour):
-        distance = 0
-        for i in range(len(tour) - 1):
-            distance += self.cities_distance(self.cities[tour[i]], self.cities[tour[i + 1]])
-        return distance
-
-    def solve(self):
-        greedy_tour = self.solve_greedy()
-        optimized_tour = self.two_opt(greedy_tour)
-        return optimized_tour
+    def run(self):
+        if not self.tour:
+            self.tour = self.solve_greedy()
+        self.tour = self.two_opt(self.tour)
+        return self.calculate_tour_distance(self.tour), True
