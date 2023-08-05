@@ -1,7 +1,11 @@
+import numpy as np
+import random
+import pandas as pd
 import math
 import heapq
 
-from .approximation_utils import calc_fitness_memo, draw_route
+from .approximation import Approximation
+from .approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance
 
 class Greedy:
     def __init__(self, cities):
@@ -11,8 +15,7 @@ class Greedy:
         self.mst = self.build_tree()
         self.current = 0
 
-    def cities_distance(self, city1, city2): 
-        return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
+
 
     def build_tree(self):
         visited =  [False] * self.num_cities
@@ -27,7 +30,7 @@ class Greedy:
 
             for next_city in range(self.num_cities):
                 if not visited[next_city]:
-                    distance = self.cities_distance(self.cities[current], self.cities[next_city])
+                    distance = calc_distance(self.cities[current], self.cities[next_city])
                     heapq.heappush(heap,(distance, next_city))
                     tree[current].append(next_city)
                     tree[next_city].append(current)
@@ -39,7 +42,7 @@ class Greedy:
         closest_dist = float('inf')
 
         for next_city in others:
-            distance = self.cities_distance(current, self.cities[next_city])
+            distance = calc_distance(current, self.cities[next_city])
             if distance < closest_dist:
                 closest = next_city
                 closest_dist = distance
@@ -64,19 +67,8 @@ class Greedy:
         self.tour.append(closest)
         self.current += 1
 
-        return self.calculate_fitness(), len(self.tour) == self.num_cities
+        return calc_fitness_memo(), len(self.tour) == self.num_cities
 
-
-    def calculate_fitness(self):
-        # Implement your fitness calculation method here
-        # For example, you can calculate the total distance of the tour
-        # and return it as the fitness value.
-        fitness = 0
-        for i in range(self.num_cities):
-            city1 = self.tour[i]
-            city2 = self.tour[(i + 1) % self.num_cities]
-            fitness += self.cities_distance(self.cities[city1], self.cities[city2])
-        return fitness
 
     def draw(self, window):
         draw_route(window, self.tour)

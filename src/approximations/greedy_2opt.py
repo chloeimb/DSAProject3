@@ -1,13 +1,15 @@
 import math
+import numpy as np
+import random
+import pandas as pd
 
+from .approximation import Approximation
+from .approximation_utils import draw_route, calc_fitness_memo, randomize_route
 class GreedyTwoOpt:
     def __init__(self, cities):
         self.cities = cities
         self.num_cities = len(cities)
         self.tour = []
-
-    def cities_distance(self, city1, city2): 
-        return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
 
     def find_closest(self, current, others): 
         closest = None
