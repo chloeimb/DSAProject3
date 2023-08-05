@@ -4,7 +4,7 @@ import random
 import pandas as pd
 
 from .approximation import Approximation
-from .approximation_utils import draw_route, calc_fitness_memo, randomize_route
+from .approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance, calc_route_distance
 class GreedyTwoOpt:
     def __init__(self, cities):
         self.cities = cities
@@ -16,7 +16,7 @@ class GreedyTwoOpt:
         closest_dist = float('inf')
 
         for next_city in others:
-            distance = self.cities_distance(current, self.cities[next_city])
+            distance = calc_distance(current, self.cities[next_city])
             if distance < closest_dist:
                 closest = next_city
                 closest_dist = distance
@@ -36,11 +36,6 @@ class GreedyTwoOpt:
         self.tour.append(self.tour[0])
         return self.tour
 
-    def calculate_tour_distance(self, tour):
-        distance = 0
-        for i in range(len(tour) - 1):
-            distance += self.cities_distance(self.cities[tour[i]], self.cities[tour[i + 1]])
-        return distance
 
     def two_opt_swap(self, tour, i, j):
         new_tour = tour[:i] + tour[i:j + 1][::-1] + tour[j + 1:]
@@ -57,7 +52,7 @@ class GreedyTwoOpt:
                     if j - i == 1:
                         continue 
                     new_tour = self.two_opt_swap(tour, i, j)
-                    if self.calculate_tour_distance(new_tour) < self.calculate_tour_distance(best_tour):
+                    if calc_route_distance(new_tour) < calc_route_distance(best_tour):
                         best_tour = new_tour
                         improved = True
 
@@ -69,4 +64,7 @@ class GreedyTwoOpt:
         if not self.tour:
             self.tour = self.solve_greedy()
         self.tour = self.two_opt(self.tour)
-        return self.calculate_tour_distance(self.tour), True
+        return calc_route_distance(self.tour), True
+    
+    def draw(self, window):
+        draw_route(window, self.tour)
