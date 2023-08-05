@@ -1,11 +1,15 @@
 import math
 import heapq
 
+from .approximation_utils import calc_fitness_memo
+
 class Greedy:
     def __init__(self, cities):
         self.cities = cities
         self.num_cities = len(cities)
         self.tour = []
+        self.mst = self.build_tree()
+        self.current = 0
 
     def cities_distance(self, city1, city2): 
         return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
@@ -44,7 +48,7 @@ class Greedy:
                 
 
     def solve(self):
-        mst = self.build_mst()
+        mst = self.build_tree()
         self.tour = [0]
         current = 0
 
@@ -55,3 +59,12 @@ class Greedy:
 
         self.tour.append(self.tour[0])
         return self.tour
+    
+
+    def run(self): 
+        closest, _ = self.find_closest(self.tour[-1], self.mst[self.current])
+        self.tour.append(closest)
+        self.current += 1
+
+        return calc_fitness_memo(self.tour), len(self.tour) == self.num_cities
+    
