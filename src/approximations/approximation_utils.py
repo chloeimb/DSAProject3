@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from colors import MAXIMUM_GREEN
+from colors import green
 
 
 def randomize_route(route: list) -> list:

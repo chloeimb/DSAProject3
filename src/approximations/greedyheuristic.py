@@ -4,7 +4,7 @@ import pandas as pd
 import math
 import heapq
 
-from .approximation import Approximation
+
 from .approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance
 
 class Greedy:
@@ -15,34 +15,34 @@ class Greedy:
         self.mst = self.build_tree()
         self.current = 0
 
-
-
     def build_tree(self):
-        visited =  [False] * self.num_cities
+        visited = [False] * self.num_cities
 
-        tree = [[] for _ in range(self.num_cities)]
+        mst = [[] for _ in range(self.num_cities)]
         visited[0] = True
         heap = [(0, 0)]
 
         while heap:
             distance, current = heapq.heappop(heap)
+            if visited[current]:
+                continue
             visited[current] = True
 
             for next_city in range(self.num_cities):
                 if not visited[next_city]:
-                    distance = calc_distance(self.cities[current], self.cities[next_city])
-                    heapq.heappush(heap,(distance, next_city))
-                    tree[current].append(next_city)
-                    tree[next_city].append(current)
-        
-        return tree
+                    next_distance = calc_distance(self.cities[current], self.cities[next_city])
+                    heapq.heappush(heap, (next_distance, next_city))
+                    mst[current].append(next_city)
+                    mst[next_city].append(current)
+
+        return mst
     
     def find_closest(self, current, others):
         closest = None
         closest_dist = float('inf')
 
         for next_city in others:
-            distance = calc_distance(current, self.cities[next_city])
+            distance = calc_distance(self.cities[current], self.cities[next_city])
             if distance < closest_dist:
                 closest = next_city
                 closest_dist = distance
