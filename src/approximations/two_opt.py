@@ -27,7 +27,7 @@ class TwoOpt:
             better = False
             for i in range(1, len(self.cities) - 1):
                 for j in range(i + 1, len(self.cities)):
-                    new_tour = self.swap(i, k)
+                    new_tour = self.swap(i, j)
                     new_dist = self.total_distance()
                     if new_dist < self.total_distance():
                         best = new_tour
