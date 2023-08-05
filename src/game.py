@@ -18,6 +18,7 @@ from src.approximations.genetic_approximation import GeneticApproximation
 from src.approximations.simulated_annealing import SimmulatedAnnealing
 from src.approximations.ant_colony_opimization import AntColonyOptimization
 from src.approximations.brute_force import BruteForce
+from src.approximations.greedyheuristic import Greedy
 from src.city import City
 
 
