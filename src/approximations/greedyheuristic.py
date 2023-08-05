@@ -4,10 +4,8 @@ import pandas as pd
 import math
 import heapq
 
-
-
-
-from approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance
+from .approximation import Approximation
+from .approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance
 
 class Greedy:
     def __init__(self, cities):
@@ -65,9 +63,6 @@ class Greedy:
         return self.tour
     
     def run(self): 
-        if self.current >= self.num_cities:
-            return calc_fitness_memo(), len(self.tour) == self.num_cities
-
         closest, _ = self.find_closest(self.tour[-1], self.mst[self.current])
         self.tour.append(closest)
         self.current += 1

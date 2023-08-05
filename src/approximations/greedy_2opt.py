@@ -5,7 +5,7 @@ import pandas as pd
 
 
 
-from approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance, calc_route_distance
+from .approximation_utils import draw_route, calc_fitness_memo, randomize_route, calc_distance, calc_route_distance
 class GreedyTwoOpt:
     def __init__(self, cities):
         self.cities = cities
