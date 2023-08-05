@@ -1,6 +1,6 @@
 import math
 
-class TwoOpt:
+class GreedyTwoOpt:
     def __init__(self, cities):
         self.cities = cities
         self.num_cities = len(cities)

@@ -13,7 +13,7 @@ from src.approximations.simulated_annealing import SimmulatedAnnealing
 from src.approximations.particle_swarm_optimization import ParticleSwarmOptimization
 from src.approximations.ant_colony_opimization import AntColonyOptimization
 from src.approximations.greedyheuristic import Greedy
-from src.approximations.two_opt import TwoOpt
+from src.approximations.greedy_2opt import GreedyTwoOpt
 
 if __name__ == '__main__':
     # Counteracts the matplotlib.use('Agg') in run_state which allows drawing to pygame surface
