@@ -48,23 +48,20 @@ class Greedy:
                 
 
     def solve(self):
-        mst = self.build_tree()
         self.tour = [0]
         current = 0
 
         while len(self.tour) < self.num_cities:
-            closest, _ = self.find_closest(current, mst[current])
+            closest, _ = self.find_closest(current, self.mst[current])
             self.tour.append(closest)
             current = closest
 
         self.tour.append(self.tour[0])
         return self.tour
     
-
     def run(self): 
         closest, _ = self.find_closest(self.tour[-1], self.mst[self.current])
         self.tour.append(closest)
         self.current += 1
 
-        return calc_fitness_memo(self.tour), len(self.tour) == self.num_cities
-    
+        return self.calculate_fitness(), len(self.tour) == self.num_cities
