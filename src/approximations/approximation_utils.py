@@ -52,7 +52,6 @@ def calc_distance(city1, city2) -> float:
     Returns:
         float: distance between cities
     """
-
     dist = city1.distance_from(city2)
     return dist
 
@@ -120,3 +119,21 @@ def draw_grid(game, grid: dict[dict[float]]) -> None:
                 pygame.draw.line(route_surface, (*MAXIMUM_GREEN, alpha), outer_city.get_pixel_tuple(), inner_city.get_pixel_tuple(), 2)
 
     game.window.blit(route_surface, (x, y))
+
+def draw_edges(window: pygame.surface.Surface, edges: dict) -> None:
+    """ Draw connections based on a dict containing edges/segments
+
+    Args:
+        window (pygame.surface.Surface): Game window that route will be drawn onto
+        edges (dict): Dictionary of edges to draw
+    """
+
+    seen = set()
+
+    for endpoint in edges:
+        if len(edges[endpoint]) > 1 and endpoint not in seen:
+            seen.add(edges[endpoint][0])
+            seen.add(edges[endpoint][-1])
+            # Loop through remaining connections
+            for index, city in enumerate(edges[endpoint][1:]):
+                pygame.draw.line(window, MAXIMUM_GREEN, edges[endpoint][index].get_pixel_tuple(), city.get_pixel_tuple(), 2)
