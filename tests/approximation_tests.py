@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import time
 
+
 from random_city import RandomCity
 
 # Allow import from src folder
