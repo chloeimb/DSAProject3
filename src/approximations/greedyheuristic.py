@@ -44,7 +44,7 @@ class Greedy:
                 
 
     def solve(self):
-        mst = self.build_mst()
+        mst = self.build_tree()
         self.tour = [0]
         current = 0
 
