@@ -1,7 +1,7 @@
 import math
 import heapq
 
-from .approximation_utils import calc_fitness_memo
+from .approximation_utils import calc_fitness_memo, draw_route
 
 class Greedy:
     def __init__(self, cities):
@@ -65,3 +65,18 @@ class Greedy:
         self.current += 1
 
         return self.calculate_fitness(), len(self.tour) == self.num_cities
+
+
+    def calculate_fitness(self):
+        # Implement your fitness calculation method here
+        # For example, you can calculate the total distance of the tour
+        # and return it as the fitness value.
+        fitness = 0
+        for i in range(self.num_cities):
+            city1 = self.tour[i]
+            city2 = self.tour[(i + 1) % self.num_cities]
+            fitness += self.cities_distance(self.cities[city1], self.cities[city2])
+        return fitness
+
+    def draw(self, window):
+        draw_route(window, self.tour)
